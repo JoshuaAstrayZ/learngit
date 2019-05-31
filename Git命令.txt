@@ -16,3 +16,31 @@ git reflog			//查看你的每一次命令
 git checkout -- <filename>		//撤销工作区的修改，使修改过的文件回到版本库一模一样的状态或add到暂存区一样的状态
 git rm <filename>		//从版本库中删除文件
 //在工作区中删除了文件后，也可以用git add <filename>来删除版本库中的对应文件
+
+
+//添加远程库
+打开shell(windows下是Git bash)，创建SSH Key：
+$ ssh-keygen -t rsa -C "youremail@example.com"
+
+
+你需要把邮件地址换成你自己的邮件地址，然后一路回车，使用默认值即可，由于这个Key也不是用于军事目的，所以也无需设置密码。
+如果一切顺利的话，可以在用户主目录里找到.ssh目录，里面有id_rsa和id_rsa.pub两个文件，这两个就是SSH Key的秘钥对，id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人。
+第2步：登陆GitHub，打开“Account settings”，“SSH Keys”页面：
+然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容：
+
+创建一个新repository————“learngit”
+
+在本机的git库目录下运行:
+$ git remote add origin git@github.com:<your-username>/learngit.git			//远程库在本机上的引用名为：origin
+
+将本地库的所有内容推送到远程库上:
+git push -u origin master			//由于远程库是空的，我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令
+//若出现错误，可能是github的远程库中的README.md不在本机代码目录中。解决方法是用如下命令进行代码合并：
+
+git pull --rebase origin master		//此句若报错，可能是本地有未提交的更改，使用
+git stash
+即可提交更改
+
+此时再执行git pull --rebase origin master, 进行本地和远程库的代码合并。然后就可以用
+git push origin master
+来将本机的库更新到远程库里了

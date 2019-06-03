@@ -44,3 +44,4 @@ git stash
 此时再执行git pull --rebase origin master, 进行本地和远程库的代码合并。然后就可以用
 git push origin master
 来将本机的库更新到远程库里了
+test
